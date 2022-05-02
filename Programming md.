@@ -1,0 +1,87 @@
+#include    "xc.h"              // Microchip XC8 compiler include file
+#include    "stdint.h"          // Include integer definitions
+#include    "stdbool.h"         // Include Boolean (true/false) definitions
+
+#include    "UBMP410.h"         // Include UBMP4.1 constant and function definitions
+
+// TODO Set linker ROM ranges to 'default,-0-7FF' under "Memory model" pull-down.
+// TODO Set linker code offset to '800' under "Additional options" pull-down.
+
+// The main function is required, and the program begins executing from here.
+
+int main(void)
+{
+    // Configure oscillator and I/O ports. These functions run once at start-up.
+    OSC_config();               // Configure internal oscillator for 48 MHz
+    UBMP4_config();             // Configure on-board UBMP4 I/O devices
+	
+   //Program Variables
+   bool SWPressed = false;
+   int delaycycles = 255;
+   resetDelay = 261.63;
+   int max delay = 440;
+  char notelength = 20;
+  char resetnotelength = 20;
+  
+    //functions
+    for(char singleNote = 0; singleNote < 45; singleNote++) 
+        delayCycles = 10 + 255; 
+        if(delayCycles >= maxDelay) 
+        {
+            delayCycles = resetDelay;
+        }
+
+   for(char soundlength = 0; soundlength <= notelength; soundlength++)
+        {
+            BEEPER = !BEEPER;
+            for (int pew = 0; pew <= delayCycles; pew++) // Loops nothing; creates delay between oscillations
+            {}
+        }
+
+        while(1)
+	{
+        if(SW2 == 0)
+        {
+            LATC = 0b11110000;
+            gunShot();
+            LATC = 0b00000000;
+            __delay_ms(25);
+        }
+        else
+        {
+            delayCycles = resetDelay;
+
+       if(SW3 == 0 && SWPressed == false) 
+        {
+            __delay_ms(50);
+            notelength++;
+            SWPressed = true;
+           
+        }
+         else if(SW4 == 0 && SWPressed == false)
+        {
+            __delay_ms(50);
+            notelength--;
+            SWPressed = true;
+        }
+
+        if (SW3 == 1 && SW4 == 1 && SWPressed) // Allows SW3/SW4 to work again after releasing their buttons
+        {
+            SWPressed = false;
+        }
+        if(notelength < 1 || notlength > 255) 
+        {
+            notlength = resetnotelength;
+        }
+
+        if(SW5 == 0)
+        {
+            notelength = 20;
+        }
+        // Activate bootloader if SW1 is pressed..
+        if(SW1 == 0)
+        {
+            RESET();
+        }
+    }
+}
