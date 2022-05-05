@@ -15,73 +15,48 @@ int main(void)
     OSC_config();               // Configure internal oscillator for 48 MHz
     UBMP4_config();             // Configure on-board UBMP4 I/O devices
 	
-   //Program Variables
-   bool SWPressed = false;
-   int delaycycles = 255;
-   resetDelay = 261.63;
-   int max delay = 440;
-  char notelength = 20;
-  char resetnotelength = 20;
-  
-    //functions
-    for(char singleNote = 0; singleNote < 45; singleNote++) 
-        delayCycles = 10 + 255; 
-        if(delayCycles >= maxDelay) 
+   Program Variables
+   Note C = 262;
+   Note D = 294;
+   Note E = 324;
+   Note A = 440;
+   Note G = 784;
+   
+   while(1);
+   
+    if(SW2 == 0)
         {
-            delayCycles = resetDelay;
+            BEEPER = 1;
+            __delay_us(262);
+            BEEPER = 0;
+            __delay_us(567);
+	    
+            BEEPER = 1;
+            __delay_us(294);
+            BEEPER = 0;
+            __delay_us(567);
+	    
+	     BEEPER = 1;
+            __delay_us(324);
+            BEEPER = 0;
+            __delay_us(567);
+	    
+	     BEEPER = 1;
+            __delay_us(440);
+            BEEPER = 0;
+            __delay_us(567);
+	    
+	     BEEPER = 1;
+            __delay_us(784);
+            BEEPER = 0;
+            __delay_us(567);
+	    
         }
-
-   for(char soundlength = 0; soundlength <= notelength; soundlength++)
-        {
-            BEEPER = !BEEPER;
-            for (int pew = 0; pew <= delayCycles; pew++) // Loops nothing; creates delay between oscillations
-            {}
-        }
-
-        while(1)
-	{
-        if(SW2 == 0)
-        {
-            LATC = 0b11110000;
-            gunShot();
-            LATC = 0b00000000;
-            __delay_ms(25);
-        }
-        else
-        {
-            delayCycles = resetDelay;
-
-       if(SW3 == 0 && SWPressed == false) 
-        {
-            __delay_ms(50);
-            notelength++;
-            SWPressed = true;
-           
-        }
-         else if(SW4 == 0 && SWPressed == false)
-        {
-            __delay_ms(50);
-            notelength--;
-            SWPressed = true;
-        }
-
-        if (SW3 == 1 && SW4 == 1 && SWPressed) // Allows SW3/SW4 to work again after releasing their buttons
-        {
-            SWPressed = false;
-        }
-        if(notelength < 1 || notlength > 255) 
-        {
-            notlength = resetnotelength;
-        }
-
-        if(SW5 == 0)
-        {
-            notelength = 20;
-        }
-        // Activate bootloader if SW1 is pressed..
+	// Activate bootloader if SW1 is pressed.
         if(SW1 == 0)
         {
             RESET();
         }
     }
 }
+        
